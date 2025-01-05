@@ -1,12 +1,12 @@
 let listaDeNumerosSorteados = [];
-let numeroLimite = 10;
+let numeroLimite = 100; // Para mudar a dificuldade do jogo, mude o número limite
 let numeroSecreto = gerarNumeroAleatorio();
 let tentativas = 1
 
 mensagemInicial();
 
-function exibirTextoNaTela(tag, texto) {
-    let campo = document.querySelector(tag);
+function exibirTextoNaTela(id, texto) {
+    let campo = document.getElementById(id);
     campo.innerHTML = texto;
     
     // Sistema de leitura para a página
@@ -21,25 +21,25 @@ function exibirTextoNaTela(tag, texto) {
 }
 
 function mensagemInicial() {
-    exibirTextoNaTela("h1", "Jogo do número secreto");
-    exibirTextoNaTela("p", 'Escolha um número entre 1 e 10');
+    exibirTextoNaTela("titulo", "Jogo do número secreto");
+    exibirTextoNaTela("subtitulo", `Escolha um número entre 1 e ${numeroLimite}`);
 }
 
 function verificarChute(){
     let chute = document.querySelector("input").value;
 
     if (chute == numeroSecreto) {
-        exibirTextoNaTela('h1', 'Acertou!');
+        exibirTextoNaTela('titulo', 'Acertou!');
         let mensagemTentativas = `Você descobriu o número secreto com ${tentativas} tentativas!`;
         mensagemTentativas = tentativas > 1 ? mensagemTentativas : 'Você descobriu o número secreto de primeira!';
-        exibirTextoNaTela('p', mensagemTentativas);
+        exibirTextoNaTela('subtitulo', mensagemTentativas);
 
         document.getElementById('reiniciar').removeAttribute('disabled');
     } else {
         if (chute > numeroSecreto) {
-            exibirTextoNaTela('p', 'O número secreto é menor');
+            exibirTextoNaTela('subtitulo', 'O número secreto é menor');
         } else {
-            exibirTextoNaTela('p', 'O número secreto é maior');
+            exibirTextoNaTela('subtitulo', 'O número secreto é maior');
         }
         tentativas++;
         limparCampo();
@@ -50,14 +50,13 @@ function gerarNumeroAleatorio() {
     let numeroEscolhido = parseInt(Math.random() * numeroLimite + 1);
     let quantidadeDeElementosNaLista = listaDeNumerosSorteados.length;
 
-    if (quantidadeDeElementosNaLista == numeroLimite) {
+    if (quantidadeDeElementosNaLista == 5) {
         listaDeNumerosSorteados = [];
     }
     if (listaDeNumerosSorteados.includes(numeroEscolhido)) {
         return gerarNumeroAleatorio();
     } else {
         listaDeNumerosSorteados.push(numeroEscolhido);
-        console.log(listaDeNumerosSorteados);
         return numeroEscolhido;
     }
 }
